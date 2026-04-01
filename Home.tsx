@@ -655,7 +655,7 @@ export default function Home() {
               className="inline-flex items-center gap-2 bg-[oklch(0.55_0.12_50)] hover:bg-[oklch(0.5_0.13_50)] text-white px-8 py-4 rounded-lg text-base font-medium tracking-wider transition-colors shadow-md"
             >
               <ExternalLink className="w-5 h-5" />
-              Peatixでワークショップに申し込む
+              ワークショップに申し込む
             </a>
             <p className="mt-3 text-[oklch(0.5_0.02_60)] text-sm">
               会場: HACHI BEPPU The Sky（
