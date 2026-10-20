@@ -21,7 +21,6 @@ const IMAGES = {
 // Links
 const LINKS = {
   peatixFire: "https://peatix.com/event/4932863",
-  peatixWorkshop: "https://coubic.com/reomatsumoto/1855441",
   googleMap: "https://www.google.com/maps/search/HACHI+BEPPU+The+Sky+%E5%A4%A7%E5%88%86%E7%9C%8C%E5%88%A5%E5%BA%9C%E5%B8%82%E9%89%84%E8%BC%AA796-18",
   instagram: "https://www.instagram.com/hachibeppu/",
 };
@@ -32,7 +31,7 @@ const LINKS = {
 // 各ニュースは { date, title, body, link?, linkLabel? } の形式です。
 // link と linkLabel は任意です（リンクが不要なら省略可）。
 // 新しいニュースを配列の先頭に追加すると、上に表示されます。
-const newsItems: { date: string; title: string; body: string; link?: string; linkLabel?: string; isNew?: boolean }[] = [
+const newsItems: { date: string; title: string; body: string; link?: string; linkLabel?: string; statusLabel?: string; isNew?: boolean }[] = [
   {
     date: "2026.05.29",
     title: "5月31日 (日)　17:00~19:00  ハンドパンOpenDay with Reo Matsumoto ゲリラ開催！",
@@ -72,10 +71,9 @@ const newsItems: { date: string; title: string; body: string; link?: string; lin
   },
   {
     date: "2026.03.18",
-    title: "ワークショップ体験レッスン 予約受付中",
+    title: "ワークショップ体験レッスン",
     body: "初心者歓迎！60分の体験レッスン（¥3,000）と1日レッスン受け放題（¥10,000）の2コースをご用意しています。",
-    link: "https://coubic.com/reomatsumoto/1855441",
-    linkLabel: "申し込む",
+    statusLabel: "受付終了",
   },
 ];
 
@@ -360,6 +358,11 @@ export default function Home() {
                         <ExternalLink className="w-3.5 h-3.5" />
                         {item.linkLabel || "詳細を見る"}
                       </a>
+                    )}
+                    {item.statusLabel && (
+                      <span className="inline-block mt-2 px-2 py-1 text-xs font-medium text-[oklch(0.45_0.02_60)] bg-[oklch(0.93_0.02_75)] rounded">
+                        {item.statusLabel}
+                      </span>
                     )}
                   </div>
                 </div>
@@ -671,15 +674,9 @@ export default function Home() {
 
           {/* Workshop CTA */}
           <div className="mt-10 text-center">
-            <a
-              href={LINKS.peatixWorkshop}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 bg-[oklch(0.55_0.12_50)] hover:bg-[oklch(0.5_0.13_50)] text-white px-8 py-4 rounded-lg text-base font-medium tracking-wider transition-colors shadow-md"
-            >
-              <ExternalLink className="w-5 h-5" />
-              Peatixでワークショップに申し込む
-            </a>
+            <span className="inline-flex items-center gap-2 bg-[oklch(0.93_0.02_75)] border border-[oklch(0.88_0.02_75)] text-[oklch(0.45_0.02_60)] px-8 py-4 rounded-lg text-base font-medium tracking-wider">
+              受付終了
+            </span>
             <p className="mt-3 text-[oklch(0.5_0.02_60)] text-sm">
               会場: HACHI BEPPU The Sky（
               <a
@@ -916,15 +913,10 @@ export default function Home() {
                     <span className="text-[oklch(0.35_0.01_60)]">火祭りギャザリング</span>
                     <ExternalLink className="w-4 h-4 text-[oklch(0.55_0.12_50)]" />
                   </a>
-                  <a
-                    href={LINKS.peatixWorkshop}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-lg border border-[oklch(0.88_0.02_75)] hover:border-[oklch(0.55_0.12_50)]/50 hover:bg-[oklch(0.93_0.02_75)]/50 transition-all text-sm"
-                  >
-                    <span className="text-[oklch(0.35_0.01_60)]">ワークショップ申し込み</span>
-                    <ExternalLink className="w-4 h-4 text-[oklch(0.55_0.12_50)]" />
-                  </a>
+                  <div className="flex items-center justify-between p-3 rounded-lg border border-[oklch(0.88_0.02_75)] text-sm">
+                    <span className="text-[oklch(0.35_0.01_60)]">ワークショップ</span>
+                    <span className="text-[oklch(0.5_0.02_60)]">受付終了</span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -973,14 +965,7 @@ export default function Home() {
             >
               火祭りギャザリング（Peatix）
             </a>
-            <a
-              href={LINKS.peatixWorkshop}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[oklch(0.65_0.08_70)] hover:text-[oklch(0.85_0.08_70)] transition-colors"
-            >
-              ワークショップ（Peatix）
-            </a>
+            <span className="text-[oklch(0.65_0.08_70)]">ワークショップ（受付終了）</span>
             <a
               href={LINKS.googleMap}
               target="_blank"
