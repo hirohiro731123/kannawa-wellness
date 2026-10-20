@@ -116,6 +116,7 @@ async function main() {
   let html = await fs.readFile(sourceIndex, "utf8");
   html = html.replace(/\s*<script src="\/__manus__\/debug-collector\.js"[^>]*><\/script>/g, "");
   html = html.replace(/\s*<script id="manus-runtime">[\s\S]*?<\/script>/g, "");
+  html = html.replace(/\s*<script\s+defer\s+src="%VITE_ANALYTICS_ENDPOINT%\/umami"[^>]*><\/script>/g, "");
   html = html.replace(/\s*<script\s+defer\s+src="https:\/\/manus-analytics\.com\/umami"[^>]*><\/script>/g, "");
   await fs.writeFile(path.join(outputDir, "index.html"), html, "utf8");
 

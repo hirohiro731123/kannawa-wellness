@@ -36,7 +36,7 @@ const newsItems: { date: string; title: string; body: string; link?: string; lin
   {
     date: "2026.05.29",
     title: "5月31日 (日)　17:00~19:00  ハンドパンOpenDay with Reo Matsumoto ゲリラ開催！",
-    body: "`やったことないけどハンドパンに興味がある方、すでにハンドパンに沼っている方まで、チャンスです！
+    body: `やったことないけどハンドパンに興味がある方、すでにハンドパンに沼っている方まで、チャンスです！
 
 なんと！世界のトップハンドパンプレイヤー Reo Matsumotoさんが、ハンドパンOpenDay＠鉄輪温泉を開催します😀
 
@@ -51,7 +51,7 @@ const newsItems: { date: string; title: string; body: string; link?: string; lin
 💰 ドネーション制
 🍱 飲食はお好きなものをご自身で持ち込みください
 
-🅿️ 駐車場は鉄輪温泉地区駐車場をご利用ください`",
+🅿️ 駐車場は鉄輪温泉地区駐車場をご利用ください`,
     link: "https://maps.app.goo.gl/jGrnxRosWvgj8ybR8",
     linkLabel: "会場をマップで見る",
     isNew: true,
