@@ -20,7 +20,6 @@ const IMAGES = {
 
 // Links
 const LINKS = {
-  peatixFire: "https://peatix.com/event/4932863",
   googleMap: "https://www.google.com/maps/search/HACHI+BEPPU+The+Sky+%E5%A4%A7%E5%88%86%E7%9C%8C%E5%88%A5%E5%BA%9C%E5%B8%82%E9%89%84%E8%BC%AA796-18",
   instagram: "https://www.instagram.com/hachibeppu/",
 };
@@ -65,8 +64,7 @@ const newsItems: { date: string; title: string; body: string; link?: string; lin
     date: "2026.03.20",
     title: "火祭りギャザリング Peatix受付開始",
     body: "4月2日（木）18:00〜 HACHI BEPPU The Sky屋上にて開催。持ち寄りパーティー形式です。",
-    link: "https://peatix.com/event/4932863",
-    linkLabel: "Peatixで詳細を見る",
+    statusLabel: "受付終了",
     isNew: true,
   },
   {
@@ -535,15 +533,9 @@ export default function Home() {
               <p className="text-white/60 text-sm mb-4">
                 持ち寄りパーティー（当日現金3000円 / Peatix事前購入）
               </p>
-              <a
-                href={LINKS.peatixFire}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 bg-[oklch(0.55_0.12_50)] hover:bg-[oklch(0.5_0.13_50)] text-white px-6 py-3 rounded-lg text-sm font-medium tracking-wider transition-colors"
-              >
-                <ExternalLink className="w-4 h-4" />
-                Peatixで申し込む
-              </a>
+              <span className="inline-flex items-center gap-2 bg-[oklch(0.93_0.02_75)] border border-[oklch(0.88_0.02_75)] text-[oklch(0.45_0.02_60)] px-6 py-3 rounded-lg text-sm font-medium tracking-wider">
+                受付終了
+              </span>
             </div>
           </div>
         </div>
@@ -904,15 +896,10 @@ export default function Home() {
                   お申し込み
                 </h4>
                 <div className="space-y-3">
-                  <a
-                    href={LINKS.peatixFire}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="flex items-center justify-between p-3 rounded-lg border border-[oklch(0.88_0.02_75)] hover:border-[oklch(0.55_0.12_50)]/50 hover:bg-[oklch(0.93_0.02_75)]/50 transition-all text-sm"
-                  >
+                  <div className="flex items-center justify-between p-3 rounded-lg border border-[oklch(0.88_0.02_75)] text-sm">
                     <span className="text-[oklch(0.35_0.01_60)]">火祭りギャザリング</span>
-                    <ExternalLink className="w-4 h-4 text-[oklch(0.55_0.12_50)]" />
-                  </a>
+                    <span className="text-[oklch(0.5_0.02_60)]">受付終了</span>
+                  </div>
                   <div className="flex items-center justify-between p-3 rounded-lg border border-[oklch(0.88_0.02_75)] text-sm">
                     <span className="text-[oklch(0.35_0.01_60)]">ワークショップ</span>
                     <span className="text-[oklch(0.5_0.02_60)]">受付終了</span>
@@ -957,14 +944,7 @@ export default function Home() {
               <Instagram className="w-4 h-4" />
               Instagram
             </a>
-            <a
-              href={LINKS.peatixFire}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-[oklch(0.65_0.08_70)] hover:text-[oklch(0.85_0.08_70)] transition-colors"
-            >
-              火祭りギャザリング（Peatix）
-            </a>
+            <span className="text-[oklch(0.65_0.08_70)]">火祭りギャザリング（受付終了）</span>
             <span className="text-[oklch(0.65_0.08_70)]">ワークショップ（受付終了）</span>
             <a
               href={LINKS.googleMap}
