@@ -33,7 +33,7 @@ const LINKS = {
 const newsItems: { date: string; title: string; body: string; link?: string; linkLabel?: string; statusLabel?: string; isNew?: boolean }[] = [
   {
     date: "2026.05.29",
-    title: "5月31日 (日)　17:00~19:00  ハンドパンOpenDay with Reo Matsumoto ゲリラ開催！",
+    title: "5月31日（日）ハンドパンOpenDay with Reo Matsumoto 開催終了",
     body: `やったことないけどハンドパンに興味がある方、すでにハンドパンに沼っている方まで、チャンスです！
 
 なんと！世界のトップハンドパンプレイヤー Reo Matsumotoさんが、ハンドパンOpenDay＠鉄輪温泉を開催します😀
