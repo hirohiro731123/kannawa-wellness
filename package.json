@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "check:translations": "node ./scripts/check-translations.mjs",
     "build:site": "vite build",
     "package:standalone": "node ./scripts/build-standalone.mjs",
     "zip:standalone": "cd dist && zip -r ../kannawa-wellness-standalone.zip standalone",
