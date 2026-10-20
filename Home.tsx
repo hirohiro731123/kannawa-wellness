@@ -31,6 +31,60 @@ const LINKS = {
 // link と linkLabel は任意です（リンクが不要なら省略可）。
 // 新しいニュースを配列の先頭に追加すると、上に表示されます。
 const newsItems: { date: string; title: string; body: string; link?: string; linkLabel?: string; statusLabel?: string; isNew?: boolean }[] = [
+{
+  date: "2026.10.20",
+  title: "ハンドパン体験！Onsen meets Handpan! 10月31日開催",
+  body: `温泉とハンドパンが出会う、特別な体験イベント。
+
+鉄輪温泉の「はち別府 The Sky」で、ハンドパンの神秘的な音色を楽しんでみませんか？
+初めての方も歓迎。プレミアムハンドパンの無料レンタル付きです。
+
+📅 日時：2026年10月31日（土）14:00〜17:00
+📍 会場：はち別府 The Sky
+👥 定員：4名／回
+🎫 参加料：3,500円
+🎶 ハンドパン体験（楽器レンタル無料）
+
+事前予約はInstagram @hachibeppu まで。
+`,
+  link: "https://www.instagram.com/p/Debren_D3s1/?utm_source=ig_web_copy_link&vrfl=MWQ1ZGUxMzBkMA==&srtk=MWQ1ZGUxMzBkMA==",
+  linkLabel: "Instagramで詳細・予約を確認",
+  isNew: true,
+},
+{
+  date: "2026.09.23",
+  title: "🍁 Sound & Stillness — Autumn Equinox Handpan Gathering（開催終了）",
+  body: `秋分の日、別府・鉄輪温泉の永福寺で開催された、ハンドパンの音に包まれる特別な音楽イベント。
+
+世界各地で演奏やワークショップを行うRRyusuque、山形から大分へ移住し音楽活動を展開するShun Yokoyama、そしてSoLua（Shin & Nari）が出演。
+Yishamaのハンドパンによる美しい響きを間近で楽しめる機会となりました。
+
+演奏に加え、ハンドパンの無料体験や、herbioFarm代表・佐藤あやによるハーブティーの出店も行われました。
+
+📅 開催日：2026年9月23日（水・祝）
+🕓 時間：16:00〜18:30
+　無料体験：16:00〜16:30
+　ライブ演奏：16:30〜18:00
+📍 会場：永福寺｜別府・鉄輪温泉
+🎫 入場料：2,500円
+🎶 ハンドパンライブ・無料体験
+🌿 herbioFarmのハーブティー
+🌏 English Welcome
+
+出演者・関連アカウント：
+RRyusuque @rryusuque
+Shun Yokoyama @greenwater014
+SoLua @shin0326.solfeggio
+Solfeggio Resonance Lab @solfeggio_resonance_lab
+はち別府 @hachibeppu
+selected_handpan @selected_handpan
+herbioFarm／佐藤あや @_sato_aya_
+
+秋の始まり、温泉の街・別府で音楽と静けさを味わうイベントとして開催されました。`,
+  link: "https://www.instagram.com/hachibeppu/",
+  linkLabel: "はち別府のInstagramを見る",
+  isNew: false,
+},
   {
     date: "2026.05.29",
     title: "5月31日 (日)　17:00~19:00  ハンドパンOpenDay with Reo Matsumoto ゲリラ開催！",
