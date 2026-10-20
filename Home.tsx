@@ -6,6 +6,10 @@
 */
 
 import { useEffect, useRef, useState } from "react";
+import { getLanguage, languageNames, languages, localizedAssetText, localizedCopy, localizedRecords, messages, siteCatalogs, validateTranslation, type Language } from "./i18n";
+import newsEn from "./translations/news.en.json";
+import newsKo from "./translations/news.ko.json";
+import newsZhTw from "./translations/news.zh-TW.json";
 import { motion, useInView } from "framer-motion";
 import { MapPin, Calendar, Clock, Music, Users, ExternalLink, ChevronDown, Megaphone, Instagram, ShoppingBag, Play, Star, Heart } from "lucide-react";
 
@@ -130,82 +134,6 @@ herbioFarm／佐藤あや @_sato_aya_
 ];
 
 // ============================================================
-// ARTIST DATA — ここを編集してアーティストを追加・更新してください
-// ============================================================
-const artists: { name: string; nameEn?: string; role: string; bio: string; image?: string }[] = [
-  {
-    name: "Light",
-    role: "ハンドパン奏者 / ワークショップ講師",
-    bio: "繊細で温かみのある音色が特徴のハンドパン奏者。鉄輪温泉ハンドパン部のワークショップ講師として、初心者から中級者まで幅広くレッスンを担当。",
-  },
-  {
-    name: "Seiko",
-    role: "ハンドパン奏者",
-    bio: "鉄輪温泉ハンドパン部メンバー。音浴湯治ライブでの演奏を通じて、温泉と音楽の融合を体現するアーティスト。",
-  },
-  {
-    name: "Shun",
-    role: "ハンドパン奏者",
-    bio: "独自のリズム感と表現力で聴く人を魅了するハンドパン奏者。鉄輪温泉でのライブパフォーマンスに参加。",
-  },
-  {
-    name: "Eidon",
-    role: "ハンドパン奏者",
-    bio: "深みのある音色と即興演奏を得意とするアーティスト。Seikoとのデュオ演奏で音浴湯治ライブに出演。",
-  },
-];
-
-// ============================================================
-// MEMBER DATA — ここを編集してメンバーを追加・更新してください
-// ============================================================
-const members: { name: string; role?: string; bio?: string; image?: string }[] = [
-  {
-    name: "Makiko",
-    role: "メンバー",
-    bio: "",
-  },
-  {
-    name: "Seiko",
-    role: "メンバー",
-    bio: "",
-  },
-  {
-    name: "Rin",
-    role: "メンバー",
-    bio: "",
-  },
-];
-
-// Live schedule data
-const liveSchedule = [
-  { date: "4/1", time: "12:00", event: "音浴湯治", place: "地獄蒸し工房前", artist: "Seiko & Eidon" },
-  { date: "4/1", time: "17:30", event: "音浴湯治", place: "むし湯前", artist: "Light" },
-  { date: "4/2", time: "9:00", event: "音浴湯治", place: "むし湯前", artist: "Light" },
-  { date: "4/2", time: "13:15", event: "音浴湯治", place: "地獄蒸し工房前", artist: "Light" },
-  { date: "4/2", time: "18:00", event: "スペシャルイベント 火祭り音浴会", place: "Hachi Beppu The Sky", artist: "持ち寄りパーティー（当日4000円）", isSpecial: true },
-  { date: "4/3", time: "8:00", event: "音浴湯治", place: "むし湯前", artist: "Light" },
-  { date: "4/3", time: "17:15", event: "音浴湯治", place: "地獄蒸し工房前", artist: "Light" },
-  { date: "4/4", time: "10:00", event: "音浴湯治", place: "むし湯前", artist: "Light" },
-  { date: "4/5", time: "10:00", event: "別府八湯温泉まつり ハンドパン音浴湯治", place: "大谷公園", artist: "Light" },
-  { date: "4/5", time: "20:00", event: "夜桜の宴", place: "大谷公園", artist: "Seiko & Eidon" },
-];
-
-// Workshop schedule data
-const workshopSchedule = [
-  { date: "4月1日", day: "水", time: "14:30 - 15:30", event: "体験＆初級レッスン ①", instructor: "Lightさん", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月1日", day: "水", time: "16:00 - 17:00", event: "体験＆初級レッスン ②", instructor: "Lightさん", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月1日", day: "水", time: "19:00 - 20:00", event: "体験＆初級レッスン ③", instructor: "Lightさん", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月2日", day: "木", time: "10:15 - 11:15", event: "体験＆初級レッスン ④", instructor: "", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月2日", day: "木", time: "11:45 - 12:45", event: "体験＆初級レッスン ⑤", instructor: "", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月2日", day: "木", time: "14:30 - 15:30", event: "体験＆初級レッスン ⑥", instructor: "", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月3日", day: "金", time: "10:00 - 16:00", event: "1日レッスン受け放題＆初中級作曲", instructor: "", price: "10000円", capacity: "定員6名", note: "お茶付き・希望者はランチ手配可能", isFullDay: true },
-  { date: "4月3日", day: "金", time: "19:00 - 20:00", event: "体験＆初級レッスン ⑦", instructor: "", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月4日", day: "土", time: "08:00 - 09:00", event: "体験＆初級レッスン ⑧", instructor: "", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月4日", day: "土", time: "12:00 - 18:00", event: "1日レッスン受け放題＆初中級作曲", instructor: "", price: "10000円", capacity: "定員6名", note: "朝の移動で来る人向け・お茶付き・希望者はランチ手配可能・終了後希望者は御神楽へ", isFullDay: true },
-  { date: "4月5日", day: "日", time: "08:00 - 09:00", event: "体験＆初級レッスン ⑨", instructor: "", price: "3000円", capacity: "定員6名", note: "" },
-  { date: "4月5日", day: "日", time: "11:30 - 12:30", event: "体験＆初級レッスン ⑩", instructor: "", price: "3000円", capacity: "定員6名", note: "" },
-];
-
 // Steam particle component
 function SteamParticle({ delay, left }: { delay: number; left: string }) {
   return (
@@ -259,6 +187,41 @@ function SectionTitle({ children, subtitle }: { children: React.ReactNode; subti
 
 export default function Home() {
   const [scrollY, setScrollY] = useState(0);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [language, setLanguage] = useState<Language>(() => {
+    try { return getLanguage(window.localStorage.getItem("kannawa-language")); }
+    catch { return "ja"; }
+  });
+  const t = (key: string) => localizedCopy(language, key);
+  const localizedArtists = localizedRecords("artists", language);
+  const localizedMembers = localizedRecords("members", language);
+  const localizedLiveSchedule = localizedRecords("liveSchedule", language);
+  const localizedWorkshopSchedule = localizedRecords("workshopSchedule", language);
+  const assetText = localizedAssetText(language, "imageAlt") as typeof siteCatalogs.ja.imageAlt;
+  const videos = localizedAssetText(language, "video") as typeof siteCatalogs.ja.video;
+  const newsTranslations = { en: newsEn, ko: newsKo, "zh-TW": newsZhTw } as const;
+  const navItems = [
+    ["news", "#news"],
+    ["aboutNav", "#about"],
+    ["live", "#live"],
+    ["workshop", "#workshop"],
+    ["artists", "#artists"],
+    ["purchase", "#buying"],
+    ["accessNav", "#access"],
+  ] as const;
+
+  useEffect(() => {
+    document.documentElement.lang = language;
+    document.title = language === "ja" ? localizedCopy(language, "brand") : `${localizedCopy(language, "brand")} | Kannawa Onsen`;
+    try { window.localStorage.setItem("kannawa-language", language); } catch { /* Keep the selected language for this visit. */ }
+  }, [language]);
+
+  const localizedNews = (item: (typeof newsItems)[number], index: number) => {
+    if (language === "ja") return item;
+    const translated = newsTranslations[language][index];
+    if (!translated || !validateTranslation(item, translated, language)) return item;
+    return { ...item, ...translated };
+  };
 
   useEffect(() => {
     const handleScroll = () => setScrollY(window.scrollY);
@@ -280,35 +243,46 @@ export default function Home() {
             : "bg-transparent"
         }`}
       >
-        <div className="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between">
-          <a href="#" className="flex items-center gap-2">
-            <span className="text-lg font-bold font-serif tracking-widest text-[oklch(0.25_0.01_60)]">
-              ♨ 鉄輪温泉ハンドパン部
+        <div className="relative max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-3">
+          <a href="#" className="flex min-w-0 max-w-[calc(100vw-11rem)] items-center gap-2 sm:max-w-none">
+            <span className="block min-w-0 truncate text-sm sm:text-lg font-bold font-serif tracking-widest text-[oklch(0.25_0.01_60)]">
+              ♨ {t("brand")}
             </span>
           </a>
-          <div className="hidden md:flex items-center gap-8 text-sm tracking-wider">
-            <a href="#news" className="text-[oklch(0.35_0.01_60)] hover:text-[oklch(0.55_0.12_50)] transition-colors">
-              News
-            </a>
-            <a href="#about" className="text-[oklch(0.35_0.01_60)] hover:text-[oklch(0.55_0.12_50)] transition-colors">
-              About
-            </a>
-            <a href="#live" className="text-[oklch(0.35_0.01_60)] hover:text-[oklch(0.55_0.12_50)] transition-colors">
-              Live
-            </a>
-            <a href="#workshop" className="text-[oklch(0.35_0.01_60)] hover:text-[oklch(0.55_0.12_50)] transition-colors">
-              Workshop
-            </a>
-            <a href="#artists" className="text-[oklch(0.35_0.01_60)] hover:text-[oklch(0.55_0.12_50)] transition-colors">
-              Artists
-            </a>
-            <a href="#buying" className="text-[oklch(0.35_0.01_60)] hover:text-[oklch(0.55_0.12_50)] transition-colors">
-              購入ガイド
-            </a>
-            <a href="#access" className="text-[oklch(0.35_0.01_60)] hover:text-[oklch(0.55_0.12_50)] transition-colors">
-              Access
-            </a>
+          <div className="hidden min-[1100px]:flex items-center gap-5 xl:gap-6 text-xs xl:text-sm tracking-wider">
+            {navItems.map(([key, href]) => (
+              <a key={key} href={href} className="whitespace-nowrap text-[oklch(0.35_0.01_60)] hover:text-[oklch(0.55_0.12_50)] transition-colors">
+                {t(key)}
+              </a>
+            ))}
           </div>
+          <div className="ml-auto flex shrink-0 items-center gap-2">
+          <button
+            type="button"
+            className="min-[1100px]:hidden inline-flex h-9 w-9 items-center justify-center rounded border border-[oklch(0.75_0.02_70)] bg-white/80 text-[oklch(0.35_0.01_60)] hover:bg-white"
+            aria-label={t("menu")}
+            aria-expanded={menuOpen}
+            aria-controls="primary-navigation-menu"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            <span aria-hidden="true" className="text-xl leading-none">{menuOpen ? "×" : "☰"}</span>
+          </button>
+          <label className="flex shrink-0 items-center gap-2 text-sm text-[oklch(0.35_0.01_60)]" aria-label={t("language")}>
+            <span className="sr-only">{t("language")}</span>
+            <select value={language} onChange={(event) => setLanguage(getLanguage(event.target.value))} className="rounded border border-[oklch(0.88_0.02_75)] bg-white/80 px-2 py-1">
+              {languages.map((code) => <option key={code} value={code}>{languageNames[code]}</option>)}
+            </select>
+          </label>
+          </div>
+          {menuOpen && (
+            <div id="primary-navigation-menu" className="absolute right-4 top-full z-50 min-[1100px]:hidden min-w-48 rounded-lg border border-[oklch(0.88_0.02_75)] bg-[oklch(0.98_0.008_80)]/95 p-2 shadow-lg backdrop-blur">
+              {navItems.map(([key, href]) => (
+                <a key={key} href={href} onClick={() => setMenuOpen(false)} className="block rounded px-3 py-2 text-sm tracking-wider text-[oklch(0.35_0.01_60)] hover:bg-[oklch(0.93_0.02_75)] hover:text-[oklch(0.55_0.12_50)]">
+                  {t(key)}
+                </a>
+              ))}
+            </div>
+          )}
         </div>
       </nav>
 
@@ -337,18 +311,18 @@ export default function Home() {
             transition={{ duration: 1.2, delay: 0.3 }}
           >
             <p className="text-[oklch(0.35_0.01_60)]/80 text-sm md:text-base tracking-[0.3em] mb-4 font-light">
-              湯けむりの中で奏でる、鉄の音色
+              {t("tagline")}
             </p>
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-[oklch(0.2_0.01_60)] tracking-wider font-serif leading-tight drop-shadow-[0_1px_2px_rgba(255,255,255,0.5)]">
-              鉄輪温泉
+              {t("heroPlace")}
               <br />
-              <span className="text-[oklch(0.45_0.12_50)]">ハンドパン部</span>
+              <span className="text-[oklch(0.45_0.12_50)]">{t("heroClub")}</span>
             </h1>
             <p className="mt-6 text-[oklch(0.35_0.01_60)]/70 text-base md:text-lg tracking-wider font-light max-w-xl mx-auto">
-              2026年4月1日〜5日 ＠ 別府・鉄輪温泉
+              {t("heroDates")}
             </p>
             <p className="mt-2 text-[oklch(0.4_0.01_60)]/60 text-sm tracking-wider">
-              Live Performance & Workshop
+                {t("heroType")}
             </p>
           </motion.div>
 
@@ -358,7 +332,7 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ delay: 1.5 }}
             className="absolute bottom-12 text-[oklch(0.35_0.01_60)]/60 hover:text-[oklch(0.2_0.01_60)] transition-colors"
-            aria-label="スクロール"
+            aria-label={t("scroll")}
           >
             <ChevronDown className="w-8 h-8 animate-gentle-float" />
           </motion.button>
@@ -368,10 +342,12 @@ export default function Home() {
       {/* News Section */}
       <AnimatedSection id="news" className="py-20 px-4">
         <div className="max-w-5xl mx-auto">
-          <SectionTitle subtitle="最新のお知らせ">News</SectionTitle>
+          <SectionTitle subtitle={t("sectionNewsSubtitle")}>{t("news")}</SectionTitle>
 
           <div className="space-y-0">
-            {newsItems.map((item, i) => (
+            {newsItems.map((sourceItem, i) => {
+              const item = localizedNews(sourceItem, i);
+              return (
               <div
                 key={i}
                 className={`group border-b border-[oklch(0.88_0.02_75)] py-6 ${
@@ -408,7 +384,7 @@ export default function Home() {
                         className="inline-flex items-center gap-1.5 mt-2 text-sm text-[oklch(0.55_0.12_50)] hover:text-[oklch(0.5_0.13_50)] font-medium transition-colors"
                       >
                         <ExternalLink className="w-3.5 h-3.5" />
-                        {item.linkLabel || "詳細を見る"}
+                        {item.linkLabel || t("details")}
                       </a>
                     )}
                     {item.statusLabel && (
@@ -419,7 +395,8 @@ export default function Home() {
                   </div>
                 </div>
               </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </AnimatedSection>
@@ -432,19 +409,18 @@ export default function Home() {
       {/* About Section */}
       <AnimatedSection id="about" className="py-24 px-4">
         <div className="max-w-5xl mx-auto">
-          <SectionTitle subtitle="「鉄」で繋がる2つの癒し">音と湯の邂逅</SectionTitle>
+          <SectionTitle subtitle={t("sectionAboutSubtitle")}>{t("sectionAbout")}</SectionTitle>
 
           <div className="grid md:grid-cols-2 gap-12 items-center mt-8">
             <div className="space-y-6">
               <p className="text-[oklch(0.35_0.01_60)] leading-relaxed text-base">
-                人は、浴びることで癒される。
+                {t("aboutLead")}
               </p>
               <p className="text-[oklch(0.35_0.01_60)] leading-relaxed text-base">
-                鉄の楽器ハンドパンで「音」を、鉄輪で「温泉」を。
-                鉄つながりの鉄輪温泉で、ハンドパンカルチャーが2026年スタートします。
+                {t("aboutBody")}
               </p>
               <p className="text-[oklch(0.35_0.01_60)] leading-relaxed text-base">
-                会場は、源泉掛け流し温泉付きハンドパンスペースのある小さな一棟貸し宿
+                {t("aboutVenueLead")}
                 <a
                   href={LINKS.googleMap}
                   target="_blank"
@@ -453,16 +429,16 @@ export default function Home() {
                 >
                   HACHI BEPPU The Sky
                 </a>
-                。レッスンの前後に無料で温泉もお楽しみください。
+                {t("aboutVenueTail")}
               </p>
               <p className="text-[oklch(0.5_0.02_60)] text-sm leading-relaxed">
-                未経験者＆初心者も大歓迎！手ぶらでOK！浴びて、奏でて、自分に出会う5日間。
+                {t("aboutWelcome")}
               </p>
             </div>
             <div className="relative">
               <img
                 src={IMAGES.handpan}
-                alt="温泉とハンドパン"
+                alt={assetText.handpan}
                 className="w-full rounded-lg shadow-lg"
                 loading="lazy"
               />
@@ -480,19 +456,19 @@ export default function Home() {
       {/* Live Schedule Section */}
       <AnimatedSection id="live" className="py-24 px-4">
         <div className="max-w-5xl mx-auto">
-          <SectionTitle subtitle="2026年4月1日〜5日">Live Schedule — 音浴湯治</SectionTitle>
+          <SectionTitle subtitle={t("sectionLiveSubtitle")}>{t("sectionLive")}</SectionTitle>
 
           <div className="relative mb-8">
             <img
               src={IMAGES.live}
-              alt="ライブパフォーマンス"
+              alt={assetText.live}
               className="w-full h-64 md:h-80 object-cover rounded-lg shadow-md"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.25_0.01_60)]/60 to-transparent rounded-lg" />
             <div className="absolute bottom-6 left-6 text-white">
               <p className="text-sm tracking-wider opacity-80">Handpan Sound Bath</p>
-              <p className="text-2xl font-serif font-bold tracking-wider">音浴湯治</p>
+              <p className="text-2xl font-serif font-bold tracking-wider">{t("soundBath")}</p>
             </div>
           </div>
 
@@ -501,15 +477,15 @@ export default function Home() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b-2 border-[oklch(0.55_0.12_50)]/30">
-                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">日付</th>
-                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">時間</th>
-                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">イベント</th>
-                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">場所</th>
-                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">Artist</th>
+                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnDate")}</th>
+                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnTime")}</th>
+                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnEvent")}</th>
+                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnPlace")}</th>
+                  <th className="py-3 px-3 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnArtist")}</th>
                 </tr>
               </thead>
               <tbody>
-                {liveSchedule.map((item, i) => (
+                {localizedLiveSchedule.map((item, i) => (
                   <tr
                     key={i}
                     className={`border-b border-[oklch(0.88_0.02_75)] transition-colors hover:bg-[oklch(0.93_0.02_75)]/50 ${
@@ -571,7 +547,7 @@ export default function Home() {
           <div className="mt-12 relative overflow-hidden rounded-xl shadow-lg">
             <img
               src={IMAGES.fire}
-              alt="火祭り"
+              alt={assetText.fire}
               className="w-full h-72 md:h-96 object-cover"
               loading="lazy"
             />
@@ -579,16 +555,16 @@ export default function Home() {
             <div className="absolute bottom-0 left-0 right-0 p-6 md:p-10">
               <p className="text-amber-300/90 text-xs tracking-[0.3em] uppercase mb-2">Special Event</p>
               <h3 className="text-2xl md:text-3xl font-serif font-bold text-white tracking-wider mb-2">
-                春の祝宴 小さな火祭りギャザリング
+                {t("festivalTitle")}
               </h3>
               <p className="text-white/80 text-sm mb-1">
-                4月2日（木）18:00〜21:00 ＠ Hachi Beppu The Sky 屋上
+                {t("festivalWhen")}
               </p>
               <p className="text-white/60 text-sm mb-4">
-                持ち寄りパーティー（当日現金3000円 / Peatix事前購入）
+                {t("festivalCost")}
               </p>
               <span className="inline-flex items-center gap-2 bg-[oklch(0.93_0.02_75)] border border-[oklch(0.88_0.02_75)] text-[oklch(0.45_0.02_60)] px-6 py-3 rounded-lg text-sm font-medium tracking-wider">
-                受付終了
+                {t("closed")}
               </span>
             </div>
           </div>
@@ -603,19 +579,19 @@ export default function Home() {
       {/* Workshop Section */}
       <AnimatedSection id="workshop" className="py-24 px-4">
         <div className="max-w-5xl mx-auto">
-          <SectionTitle subtitle="ハンドパン体験会＆レッスン ＠ 鉄輪温泉">Workshop Schedule</SectionTitle>
+          <SectionTitle subtitle={t("sectionWorkshopSubtitle")}>{t("sectionWorkshop")}</SectionTitle>
 
           <div className="relative mb-10">
             <img
               src={IMAGES.workshop}
-              alt="ワークショップ風景"
+              alt={assetText.workshop}
               className="w-full h-64 md:h-80 object-cover rounded-lg shadow-md"
               loading="lazy"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[oklch(0.25_0.01_60)]/60 to-transparent rounded-lg" />
             <div className="absolute bottom-6 left-6 text-white">
               <p className="text-sm tracking-wider opacity-80">Handpan Workshop by Light</p>
-              <p className="text-2xl font-serif font-bold tracking-wider">音の輪 体験会</p>
+              <p className="text-2xl font-serif font-bold tracking-wider">{t("workshopExperience")}</p>
             </div>
           </div>
 
@@ -623,30 +599,30 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-6 mb-10">
             <div className="bg-[oklch(0.98_0.008_80)] border border-[oklch(0.88_0.02_75)] rounded-lg p-6">
               <h4 className="font-serif font-bold text-lg text-[oklch(0.35_0.01_60)] mb-3">
-                ① 体験＆初級レッスン
+                {t("trialCourse")}
               </h4>
               <p className="text-[oklch(0.4_0.01_60)] text-sm leading-relaxed mb-2">
-                1レッスン60分 / ¥3,000（ハンドパン使用料込）
+                {t("trialPrice")}
               </p>
               <ul className="text-[oklch(0.5_0.02_60)] text-sm space-y-1">
-                <li>・簡単なフレーズの練習</li>
-                <li>・綺麗な音の出し方</li>
-                <li>・ハンドパンの買い方相談</li>
-                <li>・作曲の入口</li>
+                <li>・{t("trialPoint1")}</li>
+                <li>・{t("trialPoint2")}</li>
+                <li>・{t("trialPoint3")}</li>
+                <li>・{t("trialPoint4")}</li>
               </ul>
             </div>
             <div className="bg-[oklch(0.98_0.008_80)] border border-[oklch(0.88_0.02_75)] rounded-lg p-6">
               <h4 className="font-serif font-bold text-lg text-[oklch(0.35_0.01_60)] mb-3">
-                ② 1日レッスン受け放題＆初中級作曲
+                {t("fullDayCourse")}
               </h4>
               <p className="text-[oklch(0.4_0.01_60)] text-sm leading-relaxed mb-2">
-                1日 / ¥10,000（ハンドパン使用料・お茶付き）
+                {t("fullDayPrice")}
               </p>
               <ul className="text-[oklch(0.5_0.02_60)] text-sm space-y-1">
-                <li>・体験レッスン〜初中級対象</li>
-                <li>・1日で作曲に繋がるフレーズを集中レッスン</li>
-                <li>・参加者にカスタマイズした内容</li>
-                <li>・希望者はランチ弁当手配可能</li>
+                <li>・{t("fullDayPoint1")}</li>
+                <li>・{t("fullDayPoint2")}</li>
+                <li>・{t("fullDayPoint3")}</li>
+                <li>・{t("fullDayPoint4")}</li>
               </ul>
             </div>
           </div>
@@ -656,15 +632,15 @@ export default function Home() {
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b-2 border-[oklch(0.55_0.12_50)]/30">
-                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">日付</th>
-                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">曜日</th>
-                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">時間</th>
-                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">内容</th>
-                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">料金・備考</th>
+                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnDate")}</th>
+                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnDay")}</th>
+                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnTime")}</th>
+                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnDetails")}</th>
+                  <th className="py-3 px-2 text-left font-serif text-[oklch(0.35_0.01_60)] tracking-wider">{t("columnPriceNotes")}</th>
                 </tr>
               </thead>
               <tbody>
-                {workshopSchedule.map((item, i) => (
+                {localizedWorkshopSchedule.map((item, i) => (
                   <tr
                     key={i}
                     className={`border-b border-[oklch(0.88_0.02_75)] transition-colors hover:bg-[oklch(0.93_0.02_75)]/50 ${
@@ -676,8 +652,8 @@ export default function Home() {
                     </td>
                     <td className="py-3.5 px-2 text-[oklch(0.4_0.01_60)]">
                       <span className={`inline-block px-2 py-0.5 rounded text-xs ${
-                        item.day === "土" ? "bg-blue-100 text-blue-700" :
-                        item.day === "日" ? "bg-red-100 text-red-700" :
+                        siteCatalogs.ja.workshopSchedule[i].day === "土" ? "bg-blue-100 text-blue-700" :
+                        siteCatalogs.ja.workshopSchedule[i].day === "日" ? "bg-red-100 text-red-700" :
                         "bg-[oklch(0.93_0.02_75)] text-[oklch(0.4_0.01_60)]"
                       }`}>
                         {item.day}
@@ -721,17 +697,17 @@ export default function Home() {
           {/* Workshop CTA */}
           <div className="mt-10 text-center">
             <span className="inline-flex items-center gap-2 bg-[oklch(0.93_0.02_75)] border border-[oklch(0.88_0.02_75)] text-[oklch(0.45_0.02_60)] px-8 py-4 rounded-lg text-base font-medium tracking-wider">
-              受付終了
+              {t("closed")}
             </span>
             <p className="mt-3 text-[oklch(0.5_0.02_60)] text-sm">
-              会場: HACHI BEPPU The Sky（
+              {t("venueMapLead")}
               <a
                 href={LINKS.googleMap}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-[oklch(0.55_0.12_50)] hover:underline"
               >
-                Google Map
+                {t("googleMapName")}
               </a>
               ）
             </p>
@@ -747,10 +723,10 @@ export default function Home() {
       {/* Artist Section */}
       <AnimatedSection id="artists" className="py-24 px-4">
         <div className="max-w-5xl mx-auto">
-          <SectionTitle subtitle="鉄輪温泉ハンドパン部に参加してくれたアーティスト">Artists</SectionTitle>
+          <SectionTitle subtitle={t("sectionArtistsSubtitle")}>{t("artists")}</SectionTitle>
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {artists.map((artist, i) => (
+            {localizedArtists.map((artist, i) => (
               <motion.div
                 key={i}
                 className="group bg-[oklch(0.98_0.008_80)] border border-[oklch(0.88_0.02_75)] rounded-lg overflow-hidden hover:shadow-lg transition-all duration-300"
@@ -790,10 +766,10 @@ export default function Home() {
       {/* Member Section */}
       <AnimatedSection id="members" className="py-24 px-4">
         <div className="max-w-5xl mx-auto">
-          <SectionTitle subtitle="鉄輪温泉ハンドパン部のメンバー">Members</SectionTitle>
+          <SectionTitle subtitle={t("sectionMembersSubtitle")}>{t("sectionMembers")}</SectionTitle>
 
           <div className="grid sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
-            {members.map((member, i) => (
+            {localizedMembers.map((member, i) => (
               <motion.div
                 key={i}
                 className="text-center group"
@@ -827,7 +803,7 @@ export default function Home() {
       {/* Buying Guide Section */}
       <AnimatedSection id="buying" className="py-24 px-4">
         <div className="max-w-5xl mx-auto">
-          <SectionTitle subtitle="初めてのハンドパン選びに役立つ情報">ハンドパンの購入について</SectionTitle>
+          <SectionTitle subtitle={t("sectionBuyingSubtitle")}>{t("sectionBuying")}</SectionTitle>
 
           <div className="max-w-3xl mx-auto">
             <div className="bg-[oklch(0.98_0.008_80)] border border-[oklch(0.88_0.02_75)] rounded-lg p-8 mb-8">
@@ -835,15 +811,13 @@ export default function Home() {
                 <ShoppingBag className="w-6 h-6 text-[oklch(0.55_0.12_50)] mt-0.5 shrink-0" />
                 <div>
                   <h3 className="font-serif font-bold text-xl text-[oklch(0.3_0.01_60)] tracking-wider mb-3">
-                    ハンドパンを購入する前に
+                    {t("buyingLead")}
                   </h3>
                   <p className="text-sm text-[oklch(0.45_0.01_60)] leading-relaxed mb-3">
-                    ハンドパンは一台一台が手作りの楽器です。スケール（音階）、素材、メーカーによって音色や価格が大きく異なります。
-                    初めて購入する方は、まずワークショップで実際に触れてみることをおすすめします。
+                    {t("buyingBody1")}
                   </p>
                   <p className="text-sm text-[oklch(0.45_0.01_60)] leading-relaxed">
-                    鉄輪温泉ハンドパン部のワークショップでは、ハンドパンの買い方相談も受け付けています。
-                    また、以下のReo Matsumotoさんの動画も参考になります。
+                    {t("buyingBody2")}
                   </p>
                 </div>
               </div>
@@ -853,7 +827,7 @@ export default function Home() {
             <div className="space-y-6">
               <h4 className="font-serif font-bold text-lg text-[oklch(0.35_0.01_60)] tracking-wider flex items-center gap-2">
                 <Play className="w-5 h-5 text-[oklch(0.55_0.12_50)]" />
-                Reo Matsumotoさんのアドバイス動画
+                {t("videoSection")}
               </h4>
 
               <div className="grid md:grid-cols-2 gap-6">
@@ -861,7 +835,7 @@ export default function Home() {
                   <div className="aspect-video">
                     <iframe
                       src="https://www.youtube.com/embed/LL3VktuWqNM"
-                      title="一流ハンドパンの購入方法"
+                      title={videos[0].title}
                       className="w-full h-full"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -869,8 +843,8 @@ export default function Home() {
                     />
                   </div>
                   <div className="p-4">
-                    <p className="font-medium text-sm text-[oklch(0.3_0.01_60)] mb-1">一流ハンドパンの購入方法</p>
-                    <p className="text-xs text-[oklch(0.5_0.02_60)]">お金を無駄にしないハンドパンの選び方</p>
+                    <p className="font-medium text-sm text-[oklch(0.3_0.01_60)] mb-1">{videos[0].title}</p>
+                    <p className="text-xs text-[oklch(0.5_0.02_60)]">{videos[0].description}</p>
                   </div>
                 </div>
 
@@ -878,7 +852,7 @@ export default function Home() {
                   <div className="aspect-video">
                     <iframe
                       src="https://www.youtube.com/embed/LKGIQUBOa9Y"
-                      title="初めて買うハンドパン"
+                      title={videos[1].title}
                       className="w-full h-full"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                       allowFullScreen
@@ -886,8 +860,8 @@ export default function Home() {
                     />
                   </div>
                   <div className="p-4">
-                    <p className="font-medium text-sm text-[oklch(0.3_0.01_60)] mb-1">初めて買うハンドパン</p>
-                    <p className="text-xs text-[oklch(0.5_0.02_60)]">スケールや素材は何を選べばいい？</p>
+                    <p className="font-medium text-sm text-[oklch(0.3_0.01_60)] mb-1">{videos[1].title}</p>
+                    <p className="text-xs text-[oklch(0.5_0.02_60)]">{videos[1].description}</p>
                   </div>
                 </div>
               </div>
@@ -900,7 +874,7 @@ export default function Home() {
                   className="inline-flex items-center gap-2 text-[oklch(0.55_0.12_50)] hover:text-[oklch(0.5_0.13_50)] text-sm font-medium transition-colors"
                 >
                   <ExternalLink className="w-4 h-4" />
-                  Reo Matsumotoさんの YouTube チャンネル
+                  {t("youtubeChannel")}
                 </a>
               </div>
             </div>
@@ -916,21 +890,21 @@ export default function Home() {
       {/* Access Section */}
       <AnimatedSection id="access" className="py-24 px-4">
         <div className="max-w-5xl mx-auto">
-          <SectionTitle subtitle="大分県別府市鉄輪796-18">Access — 会場案内</SectionTitle>
+          <SectionTitle subtitle={t("sectionAccessSubtitle")}>{t("sectionAccess")}</SectionTitle>
 
           <div className="grid md:grid-cols-2 gap-10 items-start">
             <div className="space-y-6">
               <div className="bg-[oklch(0.98_0.008_80)] border border-[oklch(0.88_0.02_75)] rounded-lg p-6">
                 <h4 className="font-serif font-bold text-lg text-[oklch(0.35_0.01_60)] mb-3 flex items-center gap-2">
                   <MapPin className="w-5 h-5 text-[oklch(0.55_0.12_50)]" />
-                  HACHI BEPPU The Sky
+                  {t("venueDisplayName")}
                 </h4>
                 <p className="text-[oklch(0.4_0.01_60)] text-sm leading-relaxed mb-4">
-                  大分県別府市鉄輪796-18
+                  {t("venueAddress")}
                   <br />
-                  源泉掛け流し温泉付き一棟貸し宿
+                  {t("venueDescription")}
                   <br />
-                  ハンドパン練習スペース完備
+                  {t("venueFeature")}
                 </p>
                 <a
                   href={LINKS.googleMap}
@@ -939,7 +913,7 @@ export default function Home() {
                   className="inline-flex items-center gap-2 text-[oklch(0.55_0.12_50)] hover:text-[oklch(0.5_0.13_50)] text-sm font-medium transition-colors"
                 >
                   <MapPin className="w-4 h-4" />
-                  Google Mapで開く
+                  {t("googleMap")}
                   <ExternalLink className="w-3.5 h-3.5" />
                 </a>
               </div>
@@ -947,16 +921,16 @@ export default function Home() {
               <div className="bg-[oklch(0.98_0.008_80)] border border-[oklch(0.88_0.02_75)] rounded-lg p-6">
                 <h4 className="font-serif font-bold text-lg text-[oklch(0.35_0.01_60)] mb-3 flex items-center gap-2">
                   <Users className="w-5 h-5 text-[oklch(0.55_0.12_50)]" />
-                  お申し込み
+                  {t("booking")}
                 </h4>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between p-3 rounded-lg border border-[oklch(0.88_0.02_75)] text-sm">
-                    <span className="text-[oklch(0.35_0.01_60)]">火祭りギャザリング</span>
-                    <span className="text-[oklch(0.5_0.02_60)]">受付終了</span>
+                    <span className="text-[oklch(0.35_0.01_60)]">{t("fireGathering")}</span>
+                    <span className="text-[oklch(0.5_0.02_60)]">{t("closed")}</span>
                   </div>
                   <div className="flex items-center justify-between p-3 rounded-lg border border-[oklch(0.88_0.02_75)] text-sm">
-                    <span className="text-[oklch(0.35_0.01_60)]">ワークショップ</span>
-                    <span className="text-[oklch(0.5_0.02_60)]">受付終了</span>
+                    <span className="text-[oklch(0.35_0.01_60)]">{t("workshop")}</span>
+                    <span className="text-[oklch(0.5_0.02_60)]">{t("closed")}</span>
                   </div>
                 </div>
               </div>
@@ -972,7 +946,7 @@ export default function Home() {
                 allowFullScreen
                 loading="lazy"
                 referrerPolicy="no-referrer-when-downgrade"
-                title="HACHI BEPPU The Sky"
+                title={t("venueDisplayName")}
               />
             </div>
           </div>
@@ -983,10 +957,10 @@ export default function Home() {
       <footer className="bg-[oklch(0.25_0.01_60)] text-[oklch(0.8_0.01_80)] py-16 px-4">
         <div className="max-w-5xl mx-auto text-center">
           <p className="font-serif text-2xl tracking-widest mb-3 text-[oklch(0.85_0.08_70)]">
-            ♨ 鉄輪温泉ハンドパン部
+            ♨ {t("brand")}
           </p>
           <p className="text-sm text-[oklch(0.6_0.01_80)] tracking-wider mb-6">
-            湯けむりの中で奏でる、鉄の音色
+            {t("tagline")}
           </p>
           <div className="flex flex-wrap justify-center gap-6 text-sm mb-8">
             <a
@@ -996,22 +970,22 @@ export default function Home() {
               className="text-[oklch(0.65_0.08_70)] hover:text-[oklch(0.85_0.08_70)] transition-colors inline-flex items-center gap-1.5"
             >
               <Instagram className="w-4 h-4" />
-              Instagram
+              {t("instagramName")}
             </a>
-            <span className="text-[oklch(0.65_0.08_70)]">火祭りギャザリング（受付終了）</span>
-            <span className="text-[oklch(0.65_0.08_70)]">ワークショップ（受付終了）</span>
+            <span className="text-[oklch(0.65_0.08_70)]">{t("footerEventClosed")}</span>
+            <span className="text-[oklch(0.65_0.08_70)]">{t("footerWorkshopClosed")}</span>
             <a
               href={LINKS.googleMap}
               target="_blank"
               rel="noopener noreferrer"
               className="text-[oklch(0.65_0.08_70)] hover:text-[oklch(0.85_0.08_70)] transition-colors"
             >
-              会場アクセス（Google Map）
+              {t("accessLink")}
             </a>
           </div>
           <div className="h-[1px] bg-gradient-to-r from-transparent via-[oklch(0.55_0.12_50)]/30 to-transparent mb-6" />
           <p className="text-xs text-[oklch(0.5_0.01_80)]">
-            &copy; 2026 鉄輪温泉ハンドパン部 — HACHI BEPPU The Sky
+            {t("footerCopyright")}
           </p>
         </div>
       </footer>
